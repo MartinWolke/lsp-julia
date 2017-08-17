@@ -1,4 +1,5 @@
 (require 'ess-site)
+(require 'julia-mode)
 (require 'lsp-mode)
 
 (defun lsp-julia--get-root ()
