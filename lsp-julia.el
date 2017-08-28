@@ -8,7 +8,6 @@ If no .gitignore file can be found use the default directory "
   (or (expand-file-name (locate-dominating-file default-directory ".gitignore"))
       default-directory))
 
-
 (defun lsp-julia--rls-command ()
   `("julia" "--startup-file=no" "--history-file=no" "-e"
     "using LanguageServer; server = LanguageServer.LanguageServerInstance(STDIN, STDOUT, false); server.runlinter = true; run(server);"))
@@ -16,5 +15,10 @@ If no .gitignore file can be found use the default directory "
 (lsp-define-stdio-client 'ess-julia-mode "julia" 'stdio #'lsp-julia--get-root
                          "Julia Language Server"
                          (lsp-julia--rls-command))
+
+(lsp-client-on-notification 'ess-julia-mode "window/setStatusReady"
+                            #'(lambda (_w _p)))
+(lsp-client-on-notification 'ess-julia-mode "window/setStatusBusy"
+                            #'(lambda (_w _p)))
 
 (provide 'lsp-julia)
