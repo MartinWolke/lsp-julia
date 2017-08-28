@@ -18,4 +18,9 @@ If no .gitignore file can be found use the default directory "
                          "Julia Language Server"
                          (lsp-julia--rls-command))
 
+(lsp-client-on-notification 'ess-julia-mode "window/setStatusReady"
+                            #'(lambda (_w _p)))
+(lsp-client-on-notification 'ess-julia-mode "window/setStatusBusy"
+                            #'(lambda (_w _p)))
+
 (provide 'lsp-julia)
