@@ -15,8 +15,7 @@ If no .gitignore file can be found use the default directory "
     "using LanguageServer; server = LanguageServer.LanguageServerInstance(STDIN, STDOUT, false); server.runlinter = true; run(server);"))
 
 (lsp-define-stdio-client 'ess-julia-mode "julia" 'stdio #'lsp-julia--get-root
-                         "Julia Language Server"
-                         (lsp-julia--rls-command))
+                         "Julia Language Server" nil :command-fn #'lsp-julia--rls-command)
 
 (lsp-client-on-notification 'ess-julia-mode "window/setStatusReady"
                             #'(lambda (_w _p)))
