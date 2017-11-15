@@ -14,12 +14,18 @@ If no .gitignore file can be found use the default directory "
   `("julia" "--startup-file=no" "--history-file=no" "-e"
     "using LanguageServer; server = LanguageServer.LanguageServerInstance(STDIN, STDOUT, false); server.runlinter = true; run(server);"))
 
-(lsp-define-stdio-client 'ess-julia-mode "julia" 'stdio #'lsp-julia--get-root
-                         "Julia Language Server" nil :command-fn #'lsp-julia--rls-command)
 
-(lsp-client-on-notification 'ess-julia-mode "window/setStatusReady"
-                            #'(lambda (_w _p)))
-(lsp-client-on-notification 'ess-julia-mode "window/setStatusBusy"
-                            #'(lambda (_w _p)))
+(defconst lsp-julia--handlers
+  '(("window/setStatusBusy" .
+     (lambda (w _p)))
+    ("window/setStatusReady" .
+     (lambda(w _p)))))
+
+(defun lsp-julia--initialize-client(client)
+  (mapcar #'(lambda (p) (lsp-client-on-notification client (car p) (cdr p))) lsp-julia--handlers))
+
+(lsp-define-stdio-client lsp-julia "julia" #'lsp-julia--get-root nil
+                         :command-fn #'lsp-julia--rls-command
+                         :initialize #'lsp-julia--initialize-client)
 
 (provide 'lsp-julia)
