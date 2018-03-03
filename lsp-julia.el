@@ -1,3 +1,14 @@
+;;; lsp-julia.el --- Julia support for lsp-mode
+
+;; Copyright (C) 2017 Martin Wolke <vibhavp@gmail.com>
+
+;; Author: Martin Wolke
+;; Version: 0.1.0
+;; Package-Requires: ((lsp-mode "3.0"))
+;; Keywords: julia, language server
+;; URL: https://github.com/emacs-lsp/lsp-python
+
+;;; Code:
 (require 'lsp-mode)
 
 (defun lsp-julia--get-root ()
@@ -27,3 +38,4 @@ If no .gitignore file can be found use the default directory "
                          :initialize #'lsp-julia--initialize-client)
 
 (provide 'lsp-julia)
+;;; lsp-julia.el ends here
