@@ -22,7 +22,8 @@ If no .gitignore file can be found use the default directory "
      (lambda(w _p)))))
 
 (defun lsp-julia--initialize-client(client)
-  (mapcar #'(lambda (p) (lsp-client-on-notification client (car p) (cdr p))) lsp-julia--handlers))
+  (mapcar #'(lambda (p) (lsp-client-on-notification client (car p) (cdr p))) lsp-julia--handlers)
+  (setq-local lsp-response-timeout 30))
 
 (lsp-define-stdio-client lsp-julia "julia" #'lsp-julia--get-root nil
                          :command-fn #'lsp-julia--rls-command
