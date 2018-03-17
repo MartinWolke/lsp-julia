@@ -2,6 +2,14 @@
 (require 'julia-mode)
 (require 'lsp-mode)
 
+(defcustom lsp-julia-command "julia"
+  "Command to invoke julia with."
+  :group 'lsp-julia)
+
+(defcustom lsp-julia-flags ()
+  "List of additional flags to call julia with."
+  :group 'lsp-julia)
+
 (defun lsp-julia--get-root ()
   "Try to find the package directory by searching for a .gitignore file.
 If no .gitignore file can be found use the default directory "
@@ -11,8 +19,7 @@ If no .gitignore file can be found use the default directory "
       default-directory)))
 
 (defun lsp-julia--rls-command ()
-  `("julia" "--startup-file=no" "--history-file=no" "-e"
-    "using LanguageServer; server = LanguageServer.LanguageServerInstance(STDIN, STDOUT, false); server.runlinter = true; run(server);"))
+  `(,lsp-julia-command ,@lsp-julia-flags "--startup-file=no" "--history-file=no" "--eval='using LanguageServer; server = LanguageServer.LanguageServerInstance(STDIN, STDOUT, false); server.runlinter = true; run(server);'"))
 
 
 (defconst lsp-julia--handlers
