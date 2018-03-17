@@ -2,6 +2,10 @@
 (require 'julia-mode)
 (require 'lsp-mode)
 
+(defcustom lsp-julia-timeout 30
+  "Time before lsp-mode should assume julia just ain't gonna start."
+  :group 'lsp-julia)
+
 (defun lsp-julia--get-root ()
   "Try to find the package directory by searching for a .gitignore file.
 If no .gitignore file can be found use the default directory "
@@ -23,7 +27,7 @@ If no .gitignore file can be found use the default directory "
 
 (defun lsp-julia--initialize-client(client)
   (mapcar #'(lambda (p) (lsp-client-on-notification client (car p) (cdr p))) lsp-julia--handlers)
-  (setq-local lsp-response-timeout 30))
+  (setq-local lsp-response-timeout lsp-julia-timeout))
 
 (lsp-define-stdio-client lsp-julia "julia" #'lsp-julia--get-root nil
                          :command-fn #'lsp-julia--rls-command
