@@ -19,7 +19,8 @@ If no .gitignore file can be found use the default directory "
       default-directory)))
 
 (defun lsp-julia--rls-command ()
-  `(,lsp-julia-command ,@lsp-julia-flags "--startup-file=no" "--history-file=no" "--eval='using LanguageServer; server = LanguageServer.LanguageServerInstance(STDIN, STDOUT, false); server.runlinter = true; run(server);'"))
+  `(,lsp-julia-command ,@lsp-julia-flags "--startup-file=no"
+                       "--history-file=no" "-e using LanguageServer; server = LanguageServer.LanguageServerInstance(STDIN, STDOUT, false); server.runlinter = true; run(server);"))
 
 
 (defconst lsp-julia--handlers
